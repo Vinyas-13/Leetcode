@@ -43,9 +43,6 @@ public:
     }
     
     vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> ans;
-        ans.push_back(firstOcc(nums,target));
-        ans.push_back(lastOcc(nums,target));
-        return ans;
+        return {firstOcc(nums,target),lastOcc(nums,target)};
     }
 };
