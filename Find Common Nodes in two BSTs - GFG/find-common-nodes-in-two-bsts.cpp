@@ -90,8 +90,8 @@ class Solution
         if(root==NULL){
             return;
         }
-        mp[root->data]++;
         inorder1(root->left,mp);
+        mp[root->data]++;
         inorder1(root->right,mp);
     }
     
@@ -99,8 +99,8 @@ class Solution
         if(root==NULL){
             return;
         }
-        mp[root->data]++;
         inorder2(root->left,mp);
+        mp[root->data]++;
         inorder2(root->right,mp);
     }
     
