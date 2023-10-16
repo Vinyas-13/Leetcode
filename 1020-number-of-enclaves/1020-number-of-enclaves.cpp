@@ -1,36 +1,42 @@
 class Solution {
-public:
-    void dfs(vector<vector<int>>& grid , int i , int j , int m , int n){
-        if(i<0 || j <0 || i >= m || j>= n || grid[i][j] == 0){
-            return ;
-        }
-        grid[i][j] = 0;
-        dfs(grid ,i + 1 , j , m , n);
-        dfs(grid ,i - 1 , j , m , n);
-        dfs(grid ,i , j + 1 , m , n);
-        dfs(grid ,i , j - 1, m , n);
+private:
+    void dfs(int row,int col,vector<vector<int>>&grid,vector<vector<int>>&visited)
+    {
+        int n=grid.size();
+        int m=grid[0].size();        
+        if(row<0 || col<0 || row>=n || col>=m || visited[row][col]==1 || grid[row][col]==0)return;//invalid cases
+        visited[row][col]=1;
+        dfs(row-1,col,grid,visited);
+        dfs(row,col+1,grid,visited);
+        dfs(row+1,col,grid,visited);
+        dfs(row,col-1,grid,visited);
     }
+public:
     int numEnclaves(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
+        int n=grid.size();//row
+        int m=grid[0].size();//col
+        vector<vector<int>> visited(n,vector<int>(m,0));
         
-        for(int i=0; i<n; i++){
-            if(grid[0][i]==1) dfs(grid,0,i,m,n);
-            if(grid[m-1][i]==1) dfs(grid,m-1,i,m,n);
-        }
-        
-         for(int i=0; i<m; i++){
-            if(grid[i][0]==1) dfs(grid,i,0,m,n);
-            if(grid[i][n-1]==1) dfs(grid,i,n-1,m,n);
-        }
-        int cnt = 0;
-        for(int i = 0 ; i < m ; i++){
-            for(int j = 0 ; j < n ; j++){
-                if(grid[i][j] == 1){
-                    cnt++;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(i==0 || i==n-1 || j==0 || j==m-1)//if its a boundary cell
+                {
+                    if((grid[i][j]==1) && !visited[i][j])dfs(i,j,grid,visited);  
                 }
             }
         }
-        return cnt;
+        
+        int noEscapeCells=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(visited[i][j]==0 && grid[i][j]==1)noEscapeCells++;
+            }
+        }
+        return noEscapeCells;
+        
     }
 };
